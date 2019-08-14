@@ -1,0 +1,273 @@
+From dc0c64460b30845ccf349cc86cec7b77e02a246a Mon Sep 17 00:00:00 2001
+From: meano <meano@foxmail.com>
+Date: Wed, 14 Aug 2019 17:29:44 +0800
+Subject: [PATCH 1/4] Add MiR3G Lite makefile & dts
+
+---
+ .../ramips/dts/mt7621_xiaomi_mir3glite.dts    | 221 ++++++++++++++++++
+ target/linux/ramips/image/mt7621.mk           |  21 ++
+ 2 files changed, 242 insertions(+)
+ create mode 100644 target/linux/ramips/dts/mt7621_xiaomi_mir3glite.dts
+
+diff --git a/target/linux/ramips/dts/mt7621_xiaomi_mir3glite.dts b/target/linux/ramips/dts/mt7621_xiaomi_mir3glite.dts
+new file mode 100644
+index 0000000000..661f32b4f6
+--- /dev/null
++++ b/target/linux/ramips/dts/mt7621_xiaomi_mir3glite.dts
+@@ -0,0 +1,221 @@
++/dts-v1/;
++
++#include "mt7621.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++
++/ {
++	compatible = "xiaomi,mir3glite", "mediatek,mt7621-soc";
++	model = "Xiaomi Mi Router 3G Lite";
++
++	aliases {
++		led-boot = &led_status_yellow;
++		led-failsafe = &led_status_red;
++		led-running = &led_status_blue;
++		led-upgrade = &led_status_yellow;
++	};
++
++	memory@0 {
++		device_type = "memory";
++		reg = <0x0 0x10000000>;
++	};
++
++	chosen {
++		bootargs = "console=ttyS0,115200n8";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led_status_red: status_red {
++			label = "mir3glite:red:status";
++			gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
++		};
++
++		led_status_blue: status_blue {
++			label = "mir3glite:blue:status";
++			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
++		};
++
++		led_status_yellow: status_yellow {
++			label = "mir3glite:yellow:status";
++			gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
++		};
++
++		wan_amber {
++			label = "mir3glite:amber:wan";
++			gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
++		};
++
++		lan1_amber {
++			label = "mir3glite:amber:lan1";
++			gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
++		};
++
++		lan2_amber {
++			label = "mir3glite:amber:lan2";
++			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
++		};
++	};
++
++	button {
++		compatible = "gpio-keys-polled";
++		poll-interval = <20>;
++
++		reset {
++			label = "reset";
++			gpios = <&gpio0 18 GPIO_ACTIVE_LOW>;
++			linux,code = <KEY_RESTART>;
++		};
++	};
++
++	reg_usb_vbus: regulator {
++		compatible = "regulator-fixed";
++		regulator-name = "usb_vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		gpio = <&gpio0 12 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++	};
++};
++
++&xhci {
++	vbus-supply = <&reg_usb_vbus>;
++};
++
++&nand {
++	status = "okay";
++
++	partitions {
++		compatible = "fixed-partitions";
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		partition@0 {
++			label = "Bootloader";
++			reg = <0x0 0x80000>;
++			read-only;
++		};
++
++		partition@80000 {
++			label = "Config";
++			reg = <0x80000 0x40000>;
++		};
++
++		partition@c0000 {
++			label = "Bdata";
++			reg = <0xc0000 0x40000>;
++			read-only;
++		};
++
++		factory: partition@100000 {
++			label = "Factory";
++			reg = <0x100000 0x40000>;
++			read-only;
++		};
++
++		partition@140000 {
++			label = "crash";
++			reg = <0x140000 0x40000>;
++		};
++
++		partition@180000 {
++			label = "crash_syslog";
++			reg = <0x180000 0x40000>;
++		};
++
++		partition@1c0000 {
++			label = "reserved0";
++			reg = <0x1c0000 0x40000>;
++			read-only;
++		};
++
++		/* uboot expects to find kernels at 0x200000 & 0x600000
++		 * referred to as system 1 & system 2 respectively.
++		 * a kernel is considered suitable for handing control over
++		 * if its linux magic number exists & uImage CRC are correct.
++		 * If either of those conditions fail, a matching sys'n'_fail flag
++		 * is set in uboot env & a restart performed in the hope that the
++		 * alternate kernel is okay.
++		 * if neither kernel checksums ok and both are marked failed, system 2
++		 * is booted anyway.
++		 *
++		 * Note uboot's tftp flash install writes the transferred
++		 * image to both kernel partitions.
++		 */
++
++		partition@200000 {
++			label = "kernel0";
++			reg = <0x200000 0x400000>;
++		};
++
++		partition@600000 {
++			label = "kernel1";
++			reg = <0x600000 0x400000>;
++		};
++
++		/* ubi partition is the result of squashing
++		 * next consecutive stock partitions:
++		 * - rootfs0 (rootfs partition for stock kernel0),
++		 * - rootfs1 (rootfs partition for stock failsafe kernel1),
++		 * - overlay (used as ubi overlay in stock fw)
++		 * resulting 117,5MiB space for packages.
++		 */
++		partition@a00000 {
++			label = "rootfs0";
++			reg = <0xa00000 0x2000000>;
++		};
++		
++		partition@2a00000 {
++			label = "rootfs1";
++			reg = <0x2a00000 0x2000000>;
++		};
++
++		partition@4a00000 {
++			label = "data";
++			reg = <0x4a00000 0x3580000>;
++		};
++
++		partition@7F80000 {
++			label = "midata";
++			reg = <0x7F80000 0x80000>;
++		};
++	};
++};
++
++&pcie {
++	status = "okay";
++};
++
++&pcie0 {
++	wifi@0,0 {
++		compatible = "pci14c3,7603";
++		reg = <0x0000 0 0 0 0>;
++		mediatek,mtd-eeprom = <&factory 0x0000>;
++		ieee80211-freq-limit = <2400000 2500000>;
++	};
++};
++
++&pcie1 {
++	wifi@0,0 {
++		compatible = "pci14c3,7662";
++		reg = <0x0000 0 0 0 0>;
++		mediatek,mtd-eeprom = <&factory 0x8000>;
++		ieee80211-freq-limit = <5000000 6000000>;
++	};
++};
++
++&ethernet {
++	mtd-mac-address = <&factory 0xe000>;
++	mediatek,portmap = "lwlll";
++};
++
++&pinctrl {
++	state_default: pinctrl0 {
++		gpio {
++			ralink,group = "jtag", "uart2", "uart3", "wdt";
++			ralink,function = "gpio";
++		};
++	};
++};
+diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
+index d32feb7eab..89a8bad503 100644
+--- a/target/linux/ramips/image/mt7621.mk
++++ b/target/linux/ramips/image/mt7621.mk
+@@ -656,6 +656,27 @@ define Device/xiaomi_mir3g
+ endef
+ TARGET_DEVICES += xiaomi_mir3g
+ 
++define Device/xiaomi_mir3glite
++  MTK_SOC := mt7621
++  BLOCKSIZE := 128k
++  PAGESIZE := 2048
++  KERNEL_SIZE := 4096k
++  IMAGE_SIZE := 32768k
++  UBINIZE_OPTS := -E 5
++  IMAGES := sysupgrade.tar rootfs.bin kernel.bin
++  IMAGE/kernel.bin := append-kernel
++  IMAGE/rootfs.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
++  IMAGE/sysupgrade.tar := sysupgrade-tar | append-metadata
++  DEVICE_VENDOR := Xiaomi
++  DEVICE_MODEL := Mi Router 3G Lite
++  SUPPORTED_DEVICES += R3G
++  SUPPORTED_DEVICES += mir3glite
++  DEVICE_PACKAGES := \
++	kmod-mt7603 kmod-mt76x2 kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic \
++	uboot-envtools
++endef
++TARGET_DEVICES += xiaomi_mir3glite
++
+ define Device/xiaomi_mir3p
+   MTK_SOC := mt7621
+   BLOCKSIZE := 128k
+-- 
+2.17.1
+

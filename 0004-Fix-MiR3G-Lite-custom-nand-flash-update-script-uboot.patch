@@ -1,0 +1,50 @@
+From 75a8c3fb18249d0097f8fbf52678d97a98c06c21 Mon Sep 17 00:00:00 2001
+From: meano <meano@foxmail.com>
+Date: Wed, 14 Aug 2019 17:34:08 +0800
+Subject: [PATCH 4/4] Fix MiR3G Lite custom nand flash update script & uboot
+ env setting
+
+---
+ package/boot/uboot-envtools/files/ramips               | 2 ++
+ target/linux/ramips/base-files/lib/upgrade/platform.sh | 5 +++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/package/boot/uboot-envtools/files/ramips b/package/boot/uboot-envtools/files/ramips
+index 3612860f45..b22eda7c0b 100644
+--- a/package/boot/uboot-envtools/files/ramips
++++ b/package/boot/uboot-envtools/files/ramips
+@@ -23,6 +23,7 @@ allnet,all0256n-8m|\
+ allnet,all5002)
+ 	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x10000" "0x10000"
+ 	;;
++wrtnode,wrtnode2p|\
+ buffalo,wsr-1166dhp|\
+ buffalo,wsr-600dhp|\
+ mediatek,linkit-smart-7688|\
+@@ -32,6 +33,7 @@ zbtlink,zbt-wg2626)
+ 	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x1000" "0x10000"
+ 	;;
+ xiaomi,mir3p|\
++xiaomi,mir3glite|\
+ xiaomi,mir3g)
+ 	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x1000" "0x20000"
+ 	;;
+diff --git a/target/linux/ramips/base-files/lib/upgrade/platform.sh b/target/linux/ramips/base-files/lib/upgrade/platform.sh
+index a65492a309..4fe012990a 100755
+--- a/target/linux/ramips/base-files/lib/upgrade/platform.sh
++++ b/target/linux/ramips/base-files/lib/upgrade/platform.sh
+@@ -28,6 +28,11 @@ platform_do_upgrade() {
+ 	xiaomi,mir3p)
+ 		nand_do_upgrade "$1"
+ 		;;
++	xiaomi,mir3glite)
++		CI_KERNPART="kernel1"
++		CI_UBIPART="rootfs1"
++		nand_do_upgrade "$ARGV"
++		;;
+ 	tplink,archer-c50-v4)
+ 		MTD_ARGS="-t romfile"
+ 		default_do_upgrade "$1"
+-- 
+2.17.1
+
