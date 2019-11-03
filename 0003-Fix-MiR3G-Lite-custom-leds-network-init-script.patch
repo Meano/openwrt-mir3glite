@@ -1,42 +1,42 @@
-From fed33c87a176dfdd0ace26b58373d2c6a50e9e0b Mon Sep 17 00:00:00 2001
+From 3b0b33fba2493e819294f1109191c198299eedc4 Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 14 Aug 2019 17:32:55 +0800
 Subject: [PATCH 3/4] Fix MiR3G Lite custom leds & network init script
 
 ---
- target/linux/ramips/base-files/etc/board.d/01_leds    | 1 +
- target/linux/ramips/base-files/etc/board.d/02_network | 2 ++
+ target/linux/ramips/mt7621/base-files/etc/board.d/01_leds    | 1 +
+ target/linux/ramips/mt7621/base-files/etc/board.d/02_network | 2 ++
  2 files changed, 3 insertions(+)
 
-diff --git a/target/linux/ramips/base-files/etc/board.d/01_leds b/target/linux/ramips/base-files/etc/board.d/01_leds
-index f8a270b6b0..e840f1bd38 100755
---- a/target/linux/ramips/base-files/etc/board.d/01_leds
-+++ b/target/linux/ramips/base-files/etc/board.d/01_leds
-@@ -427,6 +427,7 @@ wavlink,wl-wn575a3)
- 	ucidef_set_led_rssi "wifi-med" "wifi-med" "$boardname:green:wifi-med" "wlan1" "50" "84"
- 	ucidef_set_led_rssi "wifi-high" "wifi-high" "$boardname:green:wifi-high" "wlan1" "85" "100"
+diff --git a/target/linux/ramips/mt7621/base-files/etc/board.d/01_leds b/target/linux/ramips/mt7621/base-files/etc/board.d/01_leds
+index 4eab8f42fe..5c27cf4754 100755
+--- a/target/linux/ramips/mt7621/base-files/etc/board.d/01_leds
++++ b/target/linux/ramips/mt7621/base-files/etc/board.d/01_leds
+@@ -59,6 +59,7 @@ tplink,re650-v1)
+ 	ucidef_set_led_netdev "eth_act" "LAN act" "$boardname:green:eth_act" "eth0" "tx rx"
+ 	ucidef_set_led_switch "eth_link" "LAN link" "$boardname:green:eth_link" "switch0" "0x01"
  	;;
 +xiaomi,mir3glite|\
  xiaomi,mir3g)
  	ucidef_set_led_switch "wan-amber"  "WAN (amber)"  "$boardname:amber:wan"  "switch0" "0x02" "0x08"
  	ucidef_set_led_switch "lan1-amber" "LAN1 (amber)" "$boardname:amber:lan1" "switch0" "0x08" "0x08"
-diff --git a/target/linux/ramips/base-files/etc/board.d/02_network b/target/linux/ramips/base-files/etc/board.d/02_network
-index 25aa075093..5e0c89f5ff 100755
---- a/target/linux/ramips/base-files/etc/board.d/02_network
-+++ b/target/linux/ramips/base-files/etc/board.d/02_network
-@@ -478,6 +478,7 @@ ramips_setup_interfaces()
+diff --git a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+index 11cf27e092..55d430674a 100755
+--- a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
++++ b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+@@ -117,6 +117,7 @@ ramips_setup_interfaces()
  		ucidef_add_switch "switch0" \
- 			"0:wan" "3:lan" "4:lan" "6@eth0"
+ 			"0:lan:4" "1:lan:3" "2:lan:2" "3:lan:1" "4:wan" "6@eth0"
  		;;
 +	xiaomi,mir3glite|\
  	xiaomi,mir3g)
  		ucidef_add_switch "switch0" \
  			"2:lan:2" "3:lan:1" "1:wan" "6t@eth0"
-@@ -714,6 +715,7 @@ ramips_setup_macs()
- 	vocore,vocore2-lite)
- 		label_mac=$(cat /sys/class/ieee80211/phy0/macaddress)
+@@ -199,6 +200,7 @@ ramips_setup_macs()
+ 	netgear,r6850)
+ 		wan_mac=$(macaddr_add "$(cat /sys/class/net/eth0/address)" 2)
  		;;
-+    xiaomi,mir3glite|\
++	xiaomi,mir3glite|\
  	xiaomi,mir3g)
  		lan_mac=$(mtd_get_mac_binary factory 0xe006)
  		;;

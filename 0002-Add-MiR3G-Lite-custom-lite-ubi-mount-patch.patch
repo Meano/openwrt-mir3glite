@@ -1,4 +1,4 @@
-From e0ba3302f84bcea817dc772c17411190db0b1a4b Mon Sep 17 00:00:00 2001
+From 36d3b3d2bd67fbad73cfdf195347dfb4f89c6ced Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 14 Aug 2019 17:31:48 +0800
 Subject: [PATCH 2/4] Add MiR3G Lite custom lite ubi mount patch

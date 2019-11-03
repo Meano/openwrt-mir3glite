@@ -1,4 +1,4 @@
-From 278bffcde1e44768132b6cd02240bc750237a3c8 Mon Sep 17 00:00:00 2001
+From a8a6e5bdec4729e71ecf9f7488d68e128687131d Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 14 Aug 2019 17:29:44 +0800
 Subject: [PATCH 1/4] Add MiR3G Lite makefile & dts
@@ -237,12 +237,12 @@ index 0000000000..661f32b4f6
 +	};
 +};
 diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
-index 582fe3284e..7753c2f615 100644
+index a7c16b18eb..96d1cc3475 100644
 --- a/target/linux/ramips/image/mt7621.mk
 +++ b/target/linux/ramips/image/mt7621.mk
-@@ -744,6 +744,27 @@ define Device/xiaomi_mir3g
+@@ -781,6 +781,27 @@ define Device/xiaomi_mir3g-v2
  endef
- TARGET_DEVICES += xiaomi_mir3g
+ TARGET_DEVICES += xiaomi_mir3g-v2
  
 +define Device/xiaomi_mir3glite
 +  MTK_SOC := mt7621

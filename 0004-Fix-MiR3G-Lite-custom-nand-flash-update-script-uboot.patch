@@ -1,12 +1,12 @@
-From 03601b981b6f381047367a71526e75b1206f7ca2 Mon Sep 17 00:00:00 2001
+From 7dabd89a02f87e66b95d8669788f25ea3e60c0fa Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 14 Aug 2019 17:34:08 +0800
 Subject: [PATCH 4/4] Fix MiR3G Lite custom nand flash update script & uboot
  env setting
 
 ---
- package/boot/uboot-envtools/files/ramips               | 2 ++
- target/linux/ramips/base-files/lib/upgrade/platform.sh | 5 +++++
+ package/boot/uboot-envtools/files/ramips                     | 2 ++
+ .../linux/ramips/mt7621/base-files/lib/upgrade/platform.sh   | 5 +++++
  2 files changed, 7 insertions(+)
 
 diff --git a/package/boot/uboot-envtools/files/ramips b/package/boot/uboot-envtools/files/ramips
@@ -29,11 +29,11 @@ index 3612860f45..b22eda7c0b 100644
  xiaomi,mir3g)
  	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x1000" "0x20000"
  	;;
-diff --git a/target/linux/ramips/base-files/lib/upgrade/platform.sh b/target/linux/ramips/base-files/lib/upgrade/platform.sh
-index a62ded4b9d..8aa0cdf213 100755
---- a/target/linux/ramips/base-files/lib/upgrade/platform.sh
-+++ b/target/linux/ramips/base-files/lib/upgrade/platform.sh
-@@ -37,6 +37,11 @@ platform_do_upgrade() {
+diff --git a/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh b/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
+index f8aa0373a0..1b1c6b9603 100755
+--- a/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
++++ b/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
+@@ -39,6 +39,11 @@ platform_do_upgrade() {
  	xiaomi,mir3p)
  		nand_do_upgrade "$1"
  		;;
@@ -42,9 +42,9 @@ index a62ded4b9d..8aa0cdf213 100755
 +		CI_UBIPART="rootfs1"
 +		nand_do_upgrade "$1"
 +		;;
- 	tplink,archer-c50-v4)
- 		MTD_ARGS="-t romfile"
- 		default_do_upgrade "$1"
+ 	ubiquiti,edgerouterx|\
+ 	ubiquiti,edgerouterx-sfp)
+ 		platform_upgrade_ubnt_erx "$1"
 -- 
 2.17.1
 
