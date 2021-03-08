@@ -1,0 +1,25 @@
+From 0ce3e0b2ea848f53ead87e88ffa23101c150f276 Mon Sep 17 00:00:00 2001
+From: meano <meano@foxmail.com>
+Date: Wed, 6 May 2020 07:49:35 +0800
+Subject: [PATCH 4/4] Xiaomi R3G Lite: Add custom ubi rootfs mount point
+
+---
+ ...0-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/linux/generic/pending-5.4/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch b/target/linux/generic/pending-5.4/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
+index b21daea4f0..a173ff92da 100644
+--- a/target/linux/generic/pending-5.4/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
++++ b/target/linux/generic/pending-5.4/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
+@@ -25,7 +25,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+ +	char magic[4];
+ +
+ +	/* try attaching mtd device named "ubi" or "data" */
+-+	mtd = open_mtd_device("ubi");
+++	mtd = open_mtd_device("rootfs1");
+ +	if (IS_ERR(mtd))
+ +		mtd = open_mtd_device("data");
+ +
+-- 
+2.27.0
+

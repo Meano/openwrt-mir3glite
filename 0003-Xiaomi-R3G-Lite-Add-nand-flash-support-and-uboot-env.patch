@@ -1,8 +1,8 @@
-From 7dabd89a02f87e66b95d8669788f25ea3e60c0fa Mon Sep 17 00:00:00 2001
+From 2bbffb9514f1926213cd5e8f68c48bf703eddfce Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
-Date: Wed, 14 Aug 2019 17:34:08 +0800
-Subject: [PATCH 4/4] Fix MiR3G Lite custom nand flash update script & uboot
- env setting
+Date: Wed, 6 May 2020 07:58:15 +0800
+Subject: [PATCH 3/4] Xiaomi R3G Lite: Add nand flash support and uboot env
+ setting
 
 ---
  package/boot/uboot-envtools/files/ramips                     | 2 ++
@@ -10,10 +10,10 @@ Subject: [PATCH 4/4] Fix MiR3G Lite custom nand flash update script & uboot
  2 files changed, 7 insertions(+)
 
 diff --git a/package/boot/uboot-envtools/files/ramips b/package/boot/uboot-envtools/files/ramips
-index 3612860f45..b22eda7c0b 100644
+index a47e2950d3..fe3c3157e4 100644
 --- a/package/boot/uboot-envtools/files/ramips
 +++ b/package/boot/uboot-envtools/files/ramips
-@@ -23,6 +23,7 @@ allnet,all0256n-8m|\
+@@ -26,6 +26,7 @@ allnet,all0256n-8m|\
  allnet,all5002)
  	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x10000" "0x10000"
  	;;
@@ -21,30 +21,30 @@ index 3612860f45..b22eda7c0b 100644
  buffalo,wsr-1166dhp|\
  buffalo,wsr-600dhp|\
  mediatek,linkit-smart-7688|\
-@@ -32,6 +33,7 @@ zbtlink,zbt-wg2626)
- 	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x1000" "0x10000"
- 	;;
- xiaomi,mir3p|\
-+xiaomi,mir3glite|\
- xiaomi,mir3g)
- 	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x1000" "0x20000"
- 	;;
+@@ -48,6 +49,7 @@ linksys,ea7300-v1|\
+ linksys,ea7300-v2|\
+ linksys,ea7500-v2|\
+ xiaomi,mi-router-3g|\
++xiaomi,mi-router-3glite|\
+ xiaomi,mi-router-3-pro|\
+ xiaomi,mi-router-4|\
+ xiaomi,mi-router-ac2100|\
 diff --git a/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh b/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
-index f8aa0373a0..1b1c6b9603 100755
+index c9152c5cf4..c97ac02688 100755
 --- a/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
 +++ b/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
-@@ -39,6 +39,11 @@ platform_do_upgrade() {
- 	xiaomi,mir3p)
+@@ -68,6 +68,11 @@ platform_do_upgrade() {
+ 	xiaomi,redmi-router-ac2100)
  		nand_do_upgrade "$1"
  		;;
-+	xiaomi,mir3glite)
++	xiaomi,mi-router-3glite)
 +		CI_KERNPART="kernel1"
 +		CI_UBIPART="rootfs1"
 +		nand_do_upgrade "$1"
 +		;;
- 	ubiquiti,edgerouterx|\
- 	ubiquiti,edgerouterx-sfp)
- 		platform_upgrade_ubnt_erx "$1"
+ 	iodata,wn-ax1167gr2|\
+ 	iodata,wn-ax2033gr|\
+ 	iodata,wn-dx1167r)
 -- 
-2.17.1
+2.27.0
 
