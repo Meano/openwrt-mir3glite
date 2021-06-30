@@ -1,4 +1,4 @@
-From e56b62bcb76606ad7bc53068411b5d0522d53335 Mon Sep 17 00:00:00 2001
+From f2f052ef69e645ce49f2c4adf6644e7740c7ea2c Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 6 May 2020 07:05:59 +0800
 Subject: [PATCH 1/4] Xiaomi R3G Lite: Add makefile and dts
@@ -252,10 +252,10 @@ index 0000000000..a0e309f9c8
 +	};
 +};
 diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
-index 396b112b76..b1e6413a36 100644
+index cf3225dc81..3ce482c373 100644
 --- a/target/linux/ramips/image/mt7621.mk
 +++ b/target/linux/ramips/image/mt7621.mk
-@@ -1317,6 +1317,20 @@ define Device/xiaomi_mi-router-3g
+@@ -1487,6 +1487,20 @@ define Device/xiaomi_mi-router-3g
  endef
  TARGET_DEVICES += xiaomi_mi-router-3g
  
@@ -277,5 +277,5 @@ index 396b112b76..b1e6413a36 100644
    $(Device/dsa-migration)
    $(Device/uimage-lzma-loader)
 -- 
-2.27.0
+2.30.2
 
