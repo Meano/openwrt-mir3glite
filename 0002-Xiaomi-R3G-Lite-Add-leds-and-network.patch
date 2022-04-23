@@ -1,4 +1,4 @@
-From fb026a31485be6fbd73bd43ba6da41adea93bbc8 Mon Sep 17 00:00:00 2001
+From fa5004e4a52493d99b0412bce0a2d0f47f6a2108 Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 6 May 2020 07:52:41 +0800
 Subject: [PATCH 2/4] Xiaomi R3G Lite: Add leds and network
@@ -8,17 +8,17 @@ Subject: [PATCH 2/4] Xiaomi R3G Lite: Add leds and network
  1 file changed, 1 insertion(+)
 
 diff --git a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-index aa1d644938..ccefbef384 100644
+index 1a914d8614..e30910393a 100644
 --- a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 +++ b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-@@ -39,6 +39,7 @@ ramips_setup_interfaces()
- 	lenovo,newifi-d1|\
- 	mikrotik,routerboard-m33g|\
+@@ -47,6 +47,7 @@ ramips_setup_interfaces()
+ 	oraybox,x3a|\
+ 	renkforce,ws-wn530hp3-a|\
  	xiaomi,mi-router-3g|\
 +	xiaomi,mi-router-3glite|\
  	xiaomi,mi-router-3g-v2|\
  	xiaomi,mi-router-4|\
  	xiaomi,mi-router-4a-gigabit)
 -- 
-2.30.2
+2.32.0
 

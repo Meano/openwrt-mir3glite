@@ -1,4 +1,4 @@
-From 3e2938a7605e86da8703ce11e3498125a41ba984 Mon Sep 17 00:00:00 2001
+From 18595af9052c8c27519c9ef151a1aa12d8bcea24 Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 6 May 2020 07:49:35 +0800
 Subject: [PATCH 4/4] Xiaomi R3G Lite: Add custom ubi rootfs mount point
@@ -9,7 +9,7 @@ Subject: [PATCH 4/4] Xiaomi R3G Lite: Add custom ubi rootfs mount point
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/linux/generic/pending-5.10/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch b/target/linux/generic/pending-5.10/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
-index 7c9766fa7b..ac82fa4a94 100644
+index 8d4440dbe4..bbc230ca90 100644
 --- a/target/linux/generic/pending-5.10/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
 +++ b/target/linux/generic/pending-5.10/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
 @@ -25,7 +25,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
@@ -21,10 +21,10 @@ index 7c9766fa7b..ac82fa4a94 100644
  +	if (IS_ERR(mtd))
  +		mtd = open_mtd_device("data");
  +
-diff --git a/target/linux/generic/pending-5.4/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch b/target/linux/generic/pending-5.4/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
-index b21daea4f0..a173ff92da 100644
---- a/target/linux/generic/pending-5.4/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
-+++ b/target/linux/generic/pending-5.4/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
+diff --git a/target/linux/generic/pending-5.15/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch b/target/linux/generic/pending-5.15/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
+index b120548d2e..4c3caf701c 100644
+--- a/target/linux/generic/pending-5.15/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
++++ b/target/linux/generic/pending-5.15/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch
 @@ -25,7 +25,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
  +	char magic[4];
  +
@@ -35,5 +35,5 @@ index b21daea4f0..a173ff92da 100644
  +		mtd = open_mtd_device("data");
  +
 -- 
-2.30.2
+2.32.0
 

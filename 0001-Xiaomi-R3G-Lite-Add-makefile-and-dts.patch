@@ -1,20 +1,20 @@
-From f2f052ef69e645ce49f2c4adf6644e7740c7ea2c Mon Sep 17 00:00:00 2001
+From c5deac5c7884a6c8ad8766961f12dc64aa2cf6bd Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 6 May 2020 07:05:59 +0800
 Subject: [PATCH 1/4] Xiaomi R3G Lite: Add makefile and dts
 
 ---
- .../dts/mt7621_xiaomi_mi-router-3glite.dts    | 236 ++++++++++++++++++
- target/linux/ramips/image/mt7621.mk           |  14 ++
- 2 files changed, 250 insertions(+)
+ .../dts/mt7621_xiaomi_mi-router-3glite.dts    | 253 ++++++++++++++++++
+ target/linux/ramips/image/mt7621.mk           |  14 +
+ 2 files changed, 267 insertions(+)
  create mode 100644 target/linux/ramips/dts/mt7621_xiaomi_mi-router-3glite.dts
 
 diff --git a/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3glite.dts b/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3glite.dts
 new file mode 100644
-index 0000000000..a0e309f9c8
+index 0000000000..60883d9ac2
 --- /dev/null
 +++ b/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3glite.dts
-@@ -0,0 +1,236 @@
+@@ -0,0 +1,253 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +
 +#include "mt7621.dtsi"
@@ -160,6 +160,7 @@ index 0000000000..a0e309f9c8
 +		 * image to both kernel partitions.
 +		 */
 +
++		/* We keep stock xiaomi firmware (kernel0) here */
 +		partition@200000 {
 +			label = "kernel0";
 +			reg = <0x200000 0x400000>;
@@ -222,7 +223,8 @@ index 0000000000..a0e309f9c8
 +};
 +
 +&gmac0 {
-+	mtd-mac-address = <&factory 0xe006>;
++	nvmem-cells = <&macaddr_factory_e006>;
++	nvmem-cell-names = "mac-address";
 +};
 +
 +&switch0 {
@@ -230,7 +232,8 @@ index 0000000000..a0e309f9c8
 +		port@1 {
 +			status = "okay";
 +			label = "wan";
-+			mtd-mac-address = <&factory 0xe000>;
++			nvmem-cells = <&macaddr_factory_e000>;
++			nvmem-cell-names = "mac-address";
 +		};
 +
 +		port@2 {
@@ -251,11 +254,25 @@ index 0000000000..a0e309f9c8
 +		function = "gpio";
 +	};
 +};
++
++&factory {
++	compatible = "nvmem-cells";
++	#address-cells = <1>;
++	#size-cells = <1>;
++
++	macaddr_factory_e000: macaddr@e000 {
++		reg = <0xe000 0x6>;
++	};
++
++	macaddr_factory_e006: macaddr@e006 {
++		reg = <0xe006 0x6>;
++	};
++};
 diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
-index cf3225dc81..3ce482c373 100644
+index e15c1ec3a8..d4fc805c94 100644
 --- a/target/linux/ramips/image/mt7621.mk
 +++ b/target/linux/ramips/image/mt7621.mk
-@@ -1487,6 +1487,20 @@ define Device/xiaomi_mi-router-3g
+@@ -1816,6 +1816,20 @@ define Device/xiaomi_mi-router-3g
  endef
  TARGET_DEVICES += xiaomi_mi-router-3g
  
@@ -277,5 +294,5 @@ index cf3225dc81..3ce482c373 100644
    $(Device/dsa-migration)
    $(Device/uimage-lzma-loader)
 -- 
-2.30.2
+2.32.0
 
