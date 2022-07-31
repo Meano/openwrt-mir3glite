@@ -1,4 +1,4 @@
-From 18595af9052c8c27519c9ef151a1aa12d8bcea24 Mon Sep 17 00:00:00 2001
+From 6c66e6a008421c7c5ace314a0fa1ba8097f28b2b Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 6 May 2020 07:49:35 +0800
 Subject: [PATCH 4/4] Xiaomi R3G Lite: Add custom ubi rootfs mount point
@@ -35,5 +35,5 @@ index b120548d2e..4c3caf701c 100644
  +		mtd = open_mtd_device("data");
  +
 -- 
-2.32.0
+2.34.1
 

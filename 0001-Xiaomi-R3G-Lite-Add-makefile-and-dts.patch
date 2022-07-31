@@ -1,12 +1,12 @@
-From c5deac5c7884a6c8ad8766961f12dc64aa2cf6bd Mon Sep 17 00:00:00 2001
+From 96bf4f46b005ed8858a8782908bc373105dcd457 Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 6 May 2020 07:05:59 +0800
 Subject: [PATCH 1/4] Xiaomi R3G Lite: Add makefile and dts
 
 ---
  .../dts/mt7621_xiaomi_mi-router-3glite.dts    | 253 ++++++++++++++++++
- target/linux/ramips/image/mt7621.mk           |  14 +
- 2 files changed, 267 insertions(+)
+ target/linux/ramips/image/mt7621.mk           |  13 +
+ 2 files changed, 266 insertions(+)
  create mode 100644 target/linux/ramips/dts/mt7621_xiaomi_mi-router-3glite.dts
 
 diff --git a/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3glite.dts b/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3glite.dts
@@ -269,24 +269,23 @@ index 0000000000..60883d9ac2
 +	};
 +};
 diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
-index e15c1ec3a8..d4fc805c94 100644
+index 34eac32112..37171dd6d9 100644
 --- a/target/linux/ramips/image/mt7621.mk
 +++ b/target/linux/ramips/image/mt7621.mk
-@@ -1816,6 +1816,20 @@ define Device/xiaomi_mi-router-3g
+@@ -1960,6 +1960,19 @@ define Device/xiaomi_mi-router-3g
  endef
  TARGET_DEVICES += xiaomi_mi-router-3g
  
 +define Device/xiaomi_mi-router-3glite
 +  $(Device/xiaomi_nand_separate)
-+  IMAGES := sysupgrade.tar rootfs.bin kernel.bin
-+  IMAGE/kernel.bin := append-kernel
-+  IMAGE/rootfs.bin := append-ubi | check-size
-+  IMAGE/sysupgrade.tar := sysupgrade-tar | append-metadata
 +  DEVICE_MODEL := Mi Router 3G Lite
 +  IMAGE_SIZE := 32768k
 +  DEVICE_PACKAGES += kmod-mt7603 kmod-mt76x2 kmod-usb3 \
 +	kmod-usb-ledtrig-usbport
 +  SUPPORTED_DEVICES += R3G mir3glite xiaomi,mir3glite
++  IMAGES := sysupgrade.bin rootfs.bin kernel.bin
++  IMAGE/kernel.bin := append-kernel
++  IMAGE/rootfs.bin := append-ubi | check-size
 +endef
 +TARGET_DEVICES += xiaomi_mi-router-3glite
 +
@@ -294,5 +293,5 @@ index e15c1ec3a8..d4fc805c94 100644
    $(Device/dsa-migration)
    $(Device/uimage-lzma-loader)
 -- 
-2.32.0
+2.34.1
 

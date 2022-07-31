@@ -1,4 +1,4 @@
-From 71c09699c6f124542892a13d3557474e047b47fd Mon Sep 17 00:00:00 2001
+From fa2b30deb381c7e46cf606937c24e42d7473c52a Mon Sep 17 00:00:00 2001
 From: meano <meano@foxmail.com>
 Date: Wed, 6 May 2020 07:58:15 +0800
 Subject: [PATCH 3/4] Xiaomi R3G Lite: Add nand flash support and uboot env
@@ -10,31 +10,31 @@ Subject: [PATCH 3/4] Xiaomi R3G Lite: Add nand flash support and uboot env
  2 files changed, 7 insertions(+)
 
 diff --git a/package/boot/uboot-envtools/files/ramips b/package/boot/uboot-envtools/files/ramips
-index 92118a6319..242231dc49 100644
+index 7514bf65fb..1ad0411fcf 100644
 --- a/package/boot/uboot-envtools/files/ramips
 +++ b/package/boot/uboot-envtools/files/ramips
-@@ -39,6 +39,7 @@ xiaomi,mi-router-4a-gigabit|\
+@@ -40,6 +40,7 @@ mediatek,linkit-smart-7688|\
+ samknows,whitebox-v8|\
  xiaomi,mi-router-4c|\
- xiaomi,miwifi-3c|\
  xiaomi,miwifi-nano|\
 +wrtnode,wrtnode2p|\
  zbtlink,zbt-wg2626|\
  zte,mf283plus)
  	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x1000" "0x10000"
-@@ -60,6 +61,7 @@ linksys,ea7500-v2|\
- linksys,ea8100-v1|\
- linksys,ea8100-v2|\
+@@ -70,6 +71,7 @@ xiaomi,miwifi-3c)
+ 	ubootenv_add_uci_sys_config "/dev/mtd2" "0x0" "0x4000" "0x10000"
+ 	;;
  xiaomi,mi-router-3g|\
 +xiaomi,mi-router-3glite|\
  xiaomi,mi-router-3-pro|\
  xiaomi,mi-router-4|\
  xiaomi,mi-router-ac2100|\
 diff --git a/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh b/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
-index c818c7e7cc..1513eaf6c3 100755
+index 8a84130ab5..166e3146fe 100755
 --- a/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
 +++ b/target/linux/ramips/mt7621/base-files/lib/upgrade/platform.sh
-@@ -94,6 +94,11 @@ platform_do_upgrade() {
- 	xiaomi,redmi-router-ac2100)
+@@ -101,6 +101,11 @@ platform_do_upgrade() {
+ 	zyxel,nwa55axe)
  		nand_do_upgrade "$1"
  		;;
 +	xiaomi,mi-router-3glite)
@@ -46,5 +46,5 @@ index c818c7e7cc..1513eaf6c3 100755
  	iodata,wn-ax2033gr|\
  	iodata,wn-dx1167r|\
 -- 
-2.32.0
+2.34.1
 
